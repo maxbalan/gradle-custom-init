@@ -1,0 +1,22 @@
+# server configuration
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+# logging configuration
+logging:
+  level: INFO
+  appenders:
+    - type: console # TODO remove console appender from production
+      threshold: INFO
+      timeZone: UTC
+      target: stdout
+      logFormat: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+
+# all other configuration
+configTest:
+  testParam: "testValue"

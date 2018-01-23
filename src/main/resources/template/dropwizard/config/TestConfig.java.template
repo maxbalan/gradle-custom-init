@@ -1,0 +1,15 @@
+package <%if (packagePath.length() > 0) print "${packagePath}."%>config;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+public class TestConfig {
+    
+    @JsonProperty("testParam")
+    private String testParam;
+    
+    public String getTestParam() {
+        return this.testParam;
+    }
+    
+}

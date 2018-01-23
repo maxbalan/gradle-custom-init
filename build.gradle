@@ -1,0 +1,58 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.9"
+    }
+}
+
+apply plugin: "com.gradle.plugin-publish"
+apply plugin: 'maven'
+apply plugin: 'groovy'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+
+    testCompile "org.codehaus.groovy:groovy-all:2.4.12"
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+}
+
+//local publisher
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('./build/repo'))
+        }
+    }
+}
+
+//gradle plugin publisher
+pluginBundle {
+    website = 'http://www.gradle.org/'
+    vcsUrl = 'https://github.com/gradle/gradle'
+    description = 'Gradle custom init plugin'
+    tags = ['gradle-init', 'custom-init']
+
+    plugins {
+        customInitTemplatePlugin {
+            id = 'com.github.maxbalan.gradle-custom-init'
+            displayName = 'Gradle Custom Init plugin'
+        }
+    }
+}
+
+group 'com.github.maxbalan.gradle.plugin'
+version '1.1'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4.1'
+}
+

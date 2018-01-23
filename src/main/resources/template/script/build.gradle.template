@@ -1,0 +1,31 @@
+group '${group}'
+version '1.0-SNAPSHOT'
+
+<% plugin.each { println "apply plugin: '$it'" } %>
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    <%
+        if (dropwizard) {
+            println "\t // dropwizard libraries"
+            println "\t compile 'io.dropwizard:dropwizard-core:${dropwizardVersion}'"
+            println "\t compile 'io.dropwizard:dropwizard-client:${dropwizardVersion}'"
+            println "\t compile 'io.dropwizard:dropwizard-auth:${dropwizardVersion}'"
+        }
+
+    %>
+    <%
+        println "// test libraries"
+        if (testFramework == 'junit') {
+            println "\t testCompile 'junit:junit:${junitVersion}'"
+        } else {
+            println "\t testCompile 'org.spockframework:spock-core:${spockVersion}'"
+            println "\t testCompile 'org.codehaus.groovy:groovy-all:${groovyVersion}'"
+        }
+    %>
+}
