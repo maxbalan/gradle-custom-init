@@ -1,7 +1,7 @@
 
-// GRADLE
+# GRADLE
 .gradle/
 
-// IDEA
+# IDEA
 build/
 out/
