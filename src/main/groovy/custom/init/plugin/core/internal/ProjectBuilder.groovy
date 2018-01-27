@@ -72,6 +72,12 @@ abstract class ProjectBuilder implements JavaProject {
                 String.format("Failed to create required source directories [ %s ]", dirPath))
     }
 
+    // not sure yest if its a good idea to add ignored files when building the template
+    //leaving it for now until I have some feedback
+    def getSkipProcessFiles() {
+        ['gradlew', 'gradlew.bat']
+    }
+
     private def getBindings() {
         def properties = this.versionProperties.getVersionProperties()
 

@@ -1,5 +1,7 @@
 package custom.init.plugin.task
 
+import org.apache.commons.lang3.StringUtils
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.internal.tasks.options.Option
 import org.gradle.api.tasks.TaskAction
@@ -10,7 +12,6 @@ import custom.init.plugin.core.internal.FileResolver
 import custom.init.plugin.core.internal.LibraryVersionProperties
 import custom.init.plugin.core.internal.ProjectBuilderRegistry
 import custom.init.plugin.core.internal.Utils
-
 /**
  * Created on 17/01/18.
  *
@@ -93,7 +94,7 @@ class CustomInit extends DefaultTask {
 
     @Option(option = "custom-template", description = "Set custom project template source", order = 0)
     void setCustomTemplate(String customTemplate) {
-        if (Utils.checkEmpty(this.customTemplate))
+        if (StringUtils.isEmpty(customTemplate.trim()))
             throw new CustomInitException("Cannot resolve [ custom-template ] parameter")
 
         this.customTemplate = customTemplate

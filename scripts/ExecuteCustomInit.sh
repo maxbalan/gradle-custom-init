@@ -6,9 +6,9 @@ Arguments:
     -t | --project-type     : required : set project type to be built
 
     -s | --project-target   : optional : set destination directory where the project will be created. Default will be
-                                         set ro the directory where the script is being called from
+                                         set to the directory where the script is being called from
 
-    -c | --custom-template  : optional : set a custom template source project it. For now only github is supported.
+    -c | --custom-template  : optional : set a custom template source project. For now only github is supported.
                                          in case of a nested project you will have to indicate the path to the source
                                          directory that contains the templates for the project. Though the template
                                          directory has to have a predefined structure e.g.:
@@ -22,7 +22,7 @@ Arguments:
                                                    and it will be replaced with the proper value defined in the .properties file
 
                                          template -> put all the project files you want to be copied to the destination
-                                                     directory defined by '-s | --project-source'
+                                                     directory defined by '-s | --project-target'
 
                                          Fig. 1 - folder structure
                                          FOLDER_A
@@ -44,12 +44,16 @@ Arguments:
 
                                                --custom-template-source 'FOLDER_A/FOLDER_B'
 
-    -l | --properties   : optional : set the source to a .propeties file to override default provided properties file.
-                                     Useful when you want to replace predefined library versions
+    -l | --library-version-source   : optional : set the source to a .propeties file to override default provided properties file.
+                                                 Useful when you want to replace predefined library versions
 
-    -g | --group        : optional : set group parameter in case of a gradle project. Default --project-source directory will be used
+    -g | --group                    : optional : set group parameter in case of a gradle project. Default --project-target directory will be used
 
-    -p | --package      : optional : set a project structure to be created when building a project
+    -p | --project-structure        : optional : set a project structure to be created when building a project
+
+    --debug                         : optional : enable debug information for this script and gradle execution
+
+    --stacktrace                    : optional : enables stacktrace for gradle execution
 
     -h : display this message
 
@@ -60,6 +64,8 @@ Arguments:
 # if you wanna set a different one execute this script with parameter "-s"
 PROJECT_TARGET=`pwd`
 GRADLE_HOME=$GRADLE_HOME
+DEBUG=false
+STACKTRACE=false
 
 if [ -z "$GRADLE_HOME" ]; then
     echo "GRADLE_HOME not found. Please set env variable GRADLE_HOME"
@@ -68,26 +74,31 @@ fi
 
 while true; do
   case "$1" in
-    -h | --help ) echo "$usage"; exit 0;;
+    -h | --help) echo "$usage"; exit 0;;
     -s | --project-target) PROJECT_TARGET=$2; shift 2;;
-    -t | --project-type ) PROJECT_TYPE=$2; shift 2;;
+    -t | --project-type) PROJECT_TYPE=$2; shift 2;;
     -c | --custom-template) CUSTOM_TEMPLATE=$2; shift 2;;
     -d | --custom-template-target) CUSTOM_TEMPLATE_TARGET=$2; shift 2;;
-    -l | --properties) CUSTOM_PROPERTIES=$2; shift 2;;
+    -l | --library-version-source) CUSTOM_PROPERTIES=$2; shift 2;;
     -g | --group) GROUP=$2; shift 2;;
-    -p | --package) PROJECT_STRUCTURE=$2; shift 2;;
+    -p | --project-structure) PROJECT_STRUCTURE=$2; shift 2;;
+    --debug) DEBUG=$2; shift 2;;
+    --stacktrace) STACKTRACE=$2 shift 2;;
     -- ) shift; break ;;
     * ) break ;;
   esac
 done
 
-echo "PROJECT_SOURCE = $PROJECT_TARGET"
-echo "PROJECT_TYPE = $PROJECT_TYPE"
-echo "CUSTOM_TEMPLATE = $CUSTOM_TEMPLATE"
-echo "CUSTOM_TEMPLATE_SOURCE = $CUSTOM_TEMPLATE_TARGET"
-echo "CUSTOM_PROPERTIES = $CUSTOM_PROPERTIES"
-echo "GROUP = $GROUP"
-echo "PROJECT_STRUCTURE = $PROJECT_STRUCTURE"
+
+if [ "$DEBUG" = true ] ; then
+    echo "PROJECT_TARGET= $PROJECT_TARGET"
+    echo "PROJECT_TYPE = $PROJECT_TYPE"
+    echo "CUSTOM_TEMPLATE = $CUSTOM_TEMPLATE"
+    echo "CUSTOM_TEMPLATE_SOURCE = $CUSTOM_TEMPLATE_TARGET"
+    echo "CUSTOM_PROPERTIES = $CUSTOM_PROPERTIES"
+    echo "GROUP = $GROUP"
+    echo "PROJECT_STRUCTURE = $PROJECT_STRUCTURE"
+fi
 
 if [ -z "$PROJECT_TYPE" ]; then
     echo "project-type was not set. Please set argument -t | --project-type"
@@ -138,7 +149,18 @@ if [ ! -z "$PROJECT_STRUCTURE" ]; then
    cmd="$cmd --project-structure $PROJECT_STRUCTURE"
 fi
 
-echo "RUN $cmd"
+if [ "$STACKTRACE" = true ] ; then
+   cmd="$cmd --stacktrace"
+fi
+
+if [ "$DEBUG" = true ] ; then
+    cmd="$cmd --debug"
+fi
+
+if [ "$DEBUG" = true ] ; then
+    echo "RUN $cmd"
+fi
+
 echo `$cmd`
 
 #cleanup don't be lazy

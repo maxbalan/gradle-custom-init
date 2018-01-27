@@ -30,11 +30,18 @@ class CustomProjectBuilder extends ProjectBuilder {
 
     void readProperties() {
         def templateSourceDir = bindings['customSourceTarget']
+
+        println "here it is $templateSourceDir"
+
+
         def propertiesPath = "${projectTarget}/temp/custom-template/${templateSourceDir}/script/CustomInit.properties"
+
+        println "here it is $propertiesPath"
+
+
         def propertiesResolver = new FileResolver(new File(propertiesPath))
         versionProperties = new LibraryVersionProperties(propertiesResolver)
-        bindings.putAll(versionProperties.versionProperties)
-        bindings.put("plugin", (bindings.get("plugin") as String).split(","))
+        bindings.putAll(parseCustomProperties(versionProperties))
     }
 
     private void copyProject() {
@@ -50,8 +57,12 @@ class CustomProjectBuilder extends ProjectBuilder {
             def path = extractSourcePath sourcePath
             def destPath = "${projectTarget}/${path}"
             def destFile = new File(destPath)
+            def skipFiles = getSkipProcessFiles()
 
             makeDirs(destFile.getParentFile().path)
+
+            if (skipFiles.contains(destFile.getName()))
+                return
 
             def content = templateProcessor.process(resolver, bindings)
 
@@ -76,8 +87,11 @@ class CustomProjectBuilder extends ProjectBuilder {
     private def resolveTemplateSource(String source) {
         def extention = source.substring(source.lastIndexOf(".") + 1, source.length())
 
+        println "got extention $extention..."
+
         switch (extention) {
             case "git": cloneGit(source); break
+            default: throw new CustomInitException(String.format("Could not identify the source of the project [ %s ]", source))
         }
     }
 
@@ -95,6 +109,28 @@ class CustomProjectBuilder extends ProjectBuilder {
 
     private static void cleanup(String path) {
         new File(path).deleteDir()
+    }
+
+    private static Map parseCustomProperties(LibraryVersionProperties customProperties) {
+        def map = [:]
+
+        customProperties.versionProperties.keySet().each { key ->
+            def value = customProperties.versionProperties.get(key)
+
+            if (value instanceof String) {
+                //read arrays from properties file
+                if (value.startsWith('[') && value.endsWith(']')) {
+                    def v = value.substring(1, value.length()-1)
+                    def tokens = v.split(",")
+                    map[key] = tokens
+                } else
+                    map[key] = value
+            } else
+                map[key] = value
+
+        }
+
+        map
     }
 
 }
