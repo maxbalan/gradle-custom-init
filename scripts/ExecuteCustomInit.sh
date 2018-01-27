@@ -82,8 +82,8 @@ while true; do
     -l | --library-version-source) CUSTOM_PROPERTIES=$2; shift 2;;
     -g | --group) GROUP=$2; shift 2;;
     -p | --project-structure) PROJECT_STRUCTURE=$2; shift 2;;
-    --debug) DEBUG=$2; shift 2;;
-    --stacktrace) STACKTRACE=$2 shift 2;;
+    --debug) DEBUG=true; shift 1;;
+    --stacktrace) STACKTRACE=true shift 1;;
     -- ) shift; break ;;
     * ) break ;;
   esac
