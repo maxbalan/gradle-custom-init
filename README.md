@@ -1,7 +1,7 @@
 # gradle-custom-init
 A gradle plugin to be used for initializing custom projects.
 
-Current released version 1.0.1
+Current released version 1.1
 
 For a more detailed information on how to use the plugin check this [How-To-Use](https://github.com/maxbalan/gradle-custom-init/wiki/How-to-use) guide.
 
