@@ -10,15 +10,10 @@ repositories {
 }
 
 dependencies {
-    <%
-        if (dropwizard) {
-            println "\t // dropwizard libraries"
-            println "\t compile 'io.dropwizard:dropwizard-core:${dropwizardVersion}'"
-            println "\t compile 'io.dropwizard:dropwizard-client:${dropwizardVersion}'"
-            println "\t compile 'io.dropwizard:dropwizard-auth:${dropwizardVersion}'"
-        }
-
-    %>
+    // dropwizard libraries
+    compile 'io.dropwizard:dropwizard-core:${dropwizardVersion}'
+    compile 'io.dropwizard:dropwizard-client:${dropwizardVersion}'
+    compile 'io.dropwizard:dropwizard-auth:${dropwizardVersion}'
     <%
         println "// test libraries"
         if (testFramework == 'junit') {

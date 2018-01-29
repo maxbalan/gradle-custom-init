@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets
  *
  * @author Maxim Balan
  */
-class FileResolver {
+class FileResolver implements ResourceReader {
 
     private final String file
     private final String path
@@ -29,6 +29,18 @@ class FileResolver {
 
         this.file = file.text
         this.path = file.path
+    }
+
+    static List<FileResolver> readTemplates(String resourcePath) {
+        def projectFiles = []
+
+        def resourceFileList = readResourceFilesRecurse(resourcePath)
+
+        resourceFileList.each { filePath ->
+            projectFiles << new FileResolver(filePath)
+        }
+
+        projectFiles
     }
 
     InputStream getInputStream() {

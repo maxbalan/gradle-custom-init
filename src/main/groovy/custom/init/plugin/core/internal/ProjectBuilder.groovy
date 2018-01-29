@@ -10,11 +10,6 @@ package custom.init.plugin.core.internal
  * @author Maxim Balan
  */
 abstract class ProjectBuilder implements JavaProject {
-    private static String BUILD_GRADLE = "build.gradle"
-    private static String SETTINGS_GRADLE = "settings.gradle"
-
-    protected static String BUILD_GRADLE_TEMPLATE_PATH = "/template/script/build.gradle.template"
-    protected static String SETTINGS_GRADLE_TEMPLATE_PATH = "/template/script/settings.gradle.template"
 
     protected LibraryVersionProperties versionProperties
     protected String projectTarget
@@ -41,22 +36,22 @@ abstract class ProjectBuilder implements JavaProject {
 
     abstract void execute()
 
-    void copyGradleFile() {
-        def buildFile = readFile(BUILD_GRADLE_TEMPLATE_PATH)
-        def settingsFile = readFile(SETTINGS_GRADLE_TEMPLATE_PATH)
+    void copyTemplates(String templateSource, String targetDir, String readPathAfterIndex, boolean removeTemplateTag = true) {
+        def templatesList = FileResolver.readTemplates(templateSource)
 
-        def build = new File("${this.projectTarget}/${BUILD_GRADLE}")
-        def settings = new File("${this.projectTarget}/${SETTINGS_GRADLE}")
+        templatesList.each {file ->
+            def filePath = file.path
+            filePath = filePath.substring(filePath.lastIndexOf(readPathAfterIndex)+readPathAfterIndex.length(), filePath.length())
 
-        checkFileExists(build, BUILD_GRADLE)
-        checkFileExists(settings, SETTINGS_GRADLE)
+            if (removeTemplateTag && filePath.endsWith('.template'))
+                filePath = filePath.substring(0, filePath.lastIndexOf('.template'))
 
-        copyFile(build, this.templateProcessor.process(buildFile, this.bindings))
-        copyFile(settings, this.templateProcessor.process(settingsFile, this.bindings))
-    }
+            def processed = templateProcessor.process(file, bindings)
+            def destFile = new File("${targetDir}/${filePath}")
 
-    FileResolver readFile(String path) {
-        new FileResolver(path)
+            makeDirs(destFile.getParentFile().path)
+            copyFile(destFile, processed)
+        }
     }
 
     void copyFile(File destFile, String content) {
@@ -96,4 +91,5 @@ abstract class ProjectBuilder implements JavaProject {
             throw new CustomInitException(
                     String.format("File [ %s ] already exists, cannot continue the build", fileName))
     }
+
 }

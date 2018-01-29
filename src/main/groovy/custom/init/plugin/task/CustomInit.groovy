@@ -34,7 +34,7 @@ class CustomInit extends DefaultTask {
     private ProjectBuilderRegistry registry
 
     CustomInit() {
-        this.libraryVersionSource = new LibraryVersionProperties(new FileResolver('/template/script/CustomInit.properties'))
+        this.libraryVersionSource = new LibraryVersionProperties(new FileResolver('/template/CustomInit.properties'))
         this.registry = ProjectBuilderRegistry.INSTANCE
         setCurrentFolderAsProjectSource()
     }
