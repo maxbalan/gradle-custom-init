@@ -1,0 +1,18 @@
+package  <%if (packagePath.length() > 0) print "${packagePath}."%>controllers
+
+
+import javax.inject._
+import play.api._
+import play.api.mvc._
+
+/**
+  * Created on 17/01/18.
+  *
+  * @author Maxim Balan
+  */
+@Singleton
+class TestController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+    def index = Action {
+                           Ok(views.html.index())
+                       }
+}

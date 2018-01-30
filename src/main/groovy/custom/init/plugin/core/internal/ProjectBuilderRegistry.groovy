@@ -15,11 +15,13 @@ class ProjectBuilderRegistry {
 
     private final BasicJavaDropwizardBuilder javaDropwizardBuilder
     private final CustomProjectBuilder customProjectBuilder
+    private final ScalaGradlePlayBuilder scalaGradlePlayBuilder
 
     private ProjectBuilderRegistry() {
         def templateProcessor = new TemplateProcessor()
         this.javaDropwizardBuilder = new BasicJavaDropwizardBuilder(templateProcessor)
         this.customProjectBuilder = new CustomProjectBuilder(templateProcessor)
+        this.scalaGradlePlayBuilder = new ScalaGradlePlayBuilder(templateProcessor)
     }
 
     BasicJavaDropwizardBuilder getJavaDropwizardBuilder() {
@@ -28,6 +30,10 @@ class ProjectBuilderRegistry {
 
     CustomProjectBuilder getCustomProjectBuilder() {
         return customProjectBuilder
+    }
+
+    ScalaGradlePlayBuilder getScalaGradlePlayBuilder() {
+        return scalaGradlePlayBuilder
     }
 
 }

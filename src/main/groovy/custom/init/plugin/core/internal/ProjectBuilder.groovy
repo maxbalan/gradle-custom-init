@@ -46,8 +46,18 @@ abstract class ProjectBuilder implements JavaProject {
             if (removeTemplateTag && filePath.endsWith('.template'))
                 filePath = filePath.substring(0, filePath.lastIndexOf('.template'))
 
-            def processed = templateProcessor.process(file, bindings)
+            def processed
+
+            try {
+                processed = templateProcessor.process(file, bindings)
+            } catch (GroovyRuntimeException e) {
+                System.out.println(e)
+                processed = file.content
+            }
+
             def destFile = new File("${targetDir}/${filePath}")
+
+            println "copy file ${destFile.path}"
 
             makeDirs(destFile.getParentFile().path)
             copyFile(destFile, processed)

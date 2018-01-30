@@ -51,4 +51,8 @@ class FileResolver implements ResourceReader {
         return path
     }
 
+    String getContent() {
+        return file
+    }
+
 }

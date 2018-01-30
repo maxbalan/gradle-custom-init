@@ -19,10 +19,18 @@ class TemplateProcessor {
     }
 
     String process(FileResolver file, Map bindings) {
+        engine.setVerbose(true)
         def template = engine.createTemplate(new InputStreamReader(file.getInputStream()))
         def processed = template.make(bindings)
 
         processed.toString()
+    }
+
+    String processByLine(FileResolver file, Map bindings) {
+
+        file.getInputStream().eachLine {
+
+        }
     }
 
 }

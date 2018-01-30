@@ -14,6 +14,7 @@ import custom.init.plugin.core.internal.ProjectBuilderRegistry
 enum SourceTemplateType {
 
     JAVA_DROPWIZARD("java-dropwizard", "basic dropwizard project"),
+    SCALA_GRADLE_PLAY("scala-gradle-play", "a simple gradle + scala + play project based"),
     CUSTOM("custom", "custom project, user will provide all the templates"),
     UNKNOWN("unknown", "unknown project type")
 
@@ -51,6 +52,7 @@ enum SourceTemplateType {
 
         switch (type) {
             case JAVA_DROPWIZARD : registry.javaDropwizardBuilder; break
+            case SCALA_GRADLE_PLAY : registry.scalaGradlePlayBuilder; break
             case CUSTOM : registry.customProjectBuilder; break
             case UNKNOWN : throw new CustomInitException(String.format("Unknown project type [ %s ]", type)); break
         }

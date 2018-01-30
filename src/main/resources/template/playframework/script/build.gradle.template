@@ -1,0 +1,70 @@
+<% plugin.each { println "apply plugin: '$it'" } %>
+
+def playVersion = '${play}'
+def scalaVersion = "${scala}"
+
+group 'callback-service'
+version '1.0-SNAPSHOT'
+
+model {
+    components {
+        play {
+            platform play: playVersion, scala: scalaVersion, java: '1.8'
+            injectedRoutesGenerator = true
+
+            sources {
+                twirlTemplates {
+                    defaultImports = TwirlImports.SCALA
+                }
+            }
+        }
+    }
+}
+
+idea {
+    module {
+        sourceDirs += file("app/")
+        testSourceDirs += file("test/")
+        scopes.COMPILE = [plus: [configurations.play], minus: []]
+        scopes.RUNTIME = [plus: [configurations.playRun], minus: [configurations.play]]
+        scopes.TEST = [plus: [configurations.playTest], minus: [configurations.playRun]]
+    }
+}
+
+dependencies {
+    play "commons-lang:commons-lang:2.6"
+    play "com.typesafe.play:play-guice_$scalaVersion:$playVersion"
+
+    compile 'org.scala-lang:scala-library:2.12.4'
+
+    // Use Scalatest for testing our library
+    testCompile 'junit:junit:${junitVersion}'
+    testCompile 'org.scalatest:scalatest_2.11:${scalaTest}'
+
+    // Need scala-xml at test runtime
+    testRuntime 'org.scala-lang.modules:scala-xml_2.11:1.0.6'
+
+    // play framework
+    play "com.typesafe.play:play-guice_$scalaVersion:$playVersion"
+    play "com.typesafe.play:play-logback_$scalaVersion:$playVersion"
+    play "com.typesafe.play:filters-helpers_$scalaVersion:$playVersion"
+
+    playTest "org.scalatestplus.play:scalatestplus-play_$scalaVersion:3.1.2"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4.1' //version required
+}
+
+repositories {
+    jcenter()
+    maven {
+        name "lightbend-maven-releases"
+        url "https://repo.lightbend.com/lightbend/maven-release"
+    }
+    ivy {
+        name "lightbend-ivy-release"
+        url "https://repo.lightbend.com/lightbend/ivy-releases"
+        layout "ivy"
+    }
+}

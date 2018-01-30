@@ -18,7 +18,6 @@ class BasicJavaDropwizardBuilder extends ProjectBuilder {
 
     @Override
     void execute() {
-        bindings.put("dropwizard", true)
         bindings.put("plugin", ["java"])
 
         javaProjectInit(projectTarget)
