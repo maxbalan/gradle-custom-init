@@ -9,3 +9,5 @@ Current implementation of the plugin supports following templates:
 - [java-dropwizard](https://github.com/maxbalan/gradle-custom-init/wiki/java-dropwizard-template)
 - [scala-gradle-play](https://github.com/maxbalan/gradle-custom-init/wiki/scala-gradle-play-template)
 - [custom](https://github.com/maxbalan/gradle-custom-init/wiki/custom-template)
+
+All details about how to import the plugin checkout [plugin-repo](https://plugins.gradle.org/plugin/com.github.maxbalan.gradle-custom-init)
