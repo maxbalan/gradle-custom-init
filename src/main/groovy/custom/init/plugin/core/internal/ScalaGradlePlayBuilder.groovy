@@ -19,7 +19,7 @@ class ScalaGradlePlayBuilder extends ProjectBuilder {
         bindings.put("plugin", ["idea", "play", "java", "scala"])
         bindings.putAll(versionProperties.versionProperties)
 
-//        copyTemplates(PROJECT_TEMPLATE_SOURCE, projectTarget, "/project/")
+        copyTemplates(PROJECT_TEMPLATE_SOURCE, projectTarget, "/project/")
         copyTemplates(SCRIPT_TEMPLATE_SOURCE, projectTarget, "/script/")
     }
 

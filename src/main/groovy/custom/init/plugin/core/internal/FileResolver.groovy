@@ -31,6 +31,11 @@ class FileResolver implements ResourceReader {
         this.path = file.path
     }
 
+    FileResolver(String content, String path) {
+        this.file = content
+        this.path = path
+    }
+
     static List<FileResolver> readTemplates(String resourcePath) {
         def projectFiles = []
 

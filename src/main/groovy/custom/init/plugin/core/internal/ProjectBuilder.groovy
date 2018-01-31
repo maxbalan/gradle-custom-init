@@ -49,9 +49,9 @@ abstract class ProjectBuilder implements JavaProject {
             def processed
 
             try {
-                processed = templateProcessor.process(file, bindings)
+                processed = templateProcessor.processWithReplace(file, bindings)
             } catch (GroovyRuntimeException e) {
-                System.out.println(e)
+                println "WARNING: $e"
                 processed = file.content
             }
 
@@ -77,8 +77,8 @@ abstract class ProjectBuilder implements JavaProject {
                 String.format("Failed to create required source directories [ %s ]", dirPath))
     }
 
-    // not sure yest if its a good idea to add ignored files when building the template
-    //leaving it for now until I have some feedback
+    // not sure yet if its a good idea to add ignored files when building the template
+    // leaving it for now until I have some feedback
     def getSkipProcessFiles() {
         ['gradlew', 'gradlew.bat']
     }
