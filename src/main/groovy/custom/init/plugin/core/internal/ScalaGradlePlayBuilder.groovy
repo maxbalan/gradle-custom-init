@@ -1,5 +1,4 @@
 package custom.init.plugin.core.internal
-
 /**
  * Created on 29/01/18.
  *
@@ -7,8 +6,8 @@ package custom.init.plugin.core.internal
  */
 class ScalaGradlePlayBuilder extends ProjectBuilder {
 
-    private static String PROJECT_TEMPLATE_SOURCE = "/template/playframework/project"
-    private static String SCRIPT_TEMPLATE_SOURCE = "/template/playframework/script"
+    private static String PROJECT_TEMPLATE_SOURCE = "template/playframework/project"
+    private static String SCRIPT_TEMPLATE_SOURCE = "template/playframework/script"
 
     ScalaGradlePlayBuilder(TemplateProcessor templateProcessor) {
         super(templateProcessor)
