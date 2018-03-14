@@ -30,16 +30,9 @@ class CustomProjectBuilder extends ProjectBuilder {
 
     void readProperties() {
         def templateSourceDir = bindings['customSourceTarget']
-
-        println "here it is $templateSourceDir"
-
-
         def propertiesPath = "${projectTarget}/temp/custom-template/${templateSourceDir}/script/CustomInit.properties"
-
-        println "here it is $propertiesPath"
-
-
         def propertiesResolver = new FileResolver(new File(propertiesPath))
+
         versionProperties = new LibraryVersionProperties(propertiesResolver)
         bindings.putAll(parseCustomProperties(versionProperties))
     }

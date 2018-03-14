@@ -17,13 +17,19 @@ trait ResourceReader {
         if (!rPath.endsWith('/'))
             rPath="$rPath/"
 
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        def resP = resourcePath
+        if (resourcePath.startsWith("/"))
+            resP = resourcePath.substring(1)
+
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver()
         Resource[] resources = resolver.getResources("${rPath}**")
         def filePaths = []
 
         resources.each { Resource res ->
             if (res.filename.endsWith(TEMPLATE)) {
-                filePaths.add("${res.description.substring(res.description.lastIndexOf(resourcePath), res.description.length()-1)}")
+                println(">>>>>>>>>>>> ${res.description} <<<<<<<<<<<<<<<<")
+
+                filePaths.add("${res.description.substring(res.description.lastIndexOf(resP), res.description.length()-1)}")
             }
         }
 

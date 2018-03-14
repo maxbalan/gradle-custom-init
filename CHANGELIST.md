@@ -1,3 +1,6 @@
+*v1.4.3*
+- fixing file path processing when reading resources from classpath
+
 *v1.3.1*
 - fixing file path processing 
 
