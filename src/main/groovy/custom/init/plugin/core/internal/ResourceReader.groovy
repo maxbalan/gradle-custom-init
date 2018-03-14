@@ -19,15 +19,24 @@ trait ResourceReader {
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resolver.getResources("${rPath}**")
-        def filePath = []
+        def filePaths = []
 
         resources.each { Resource res ->
             if (res.filename.endsWith(TEMPLATE)) {
-                filePath.add("/${res.description.substring(res.description.lastIndexOf(resourcePath), res.description.length()-1)}")
+                filePaths.add("${res.description.substring(res.description.lastIndexOf(resourcePath), res.description.length()-1)}")
             }
         }
 
-        filePath
+        def results = []
+
+        filePaths.forEach { String path ->
+            if (path.startsWith("/"))
+                results.add(path)
+            else
+                results.add("/${path}")
+        }
+
+        results
     }
 
 }

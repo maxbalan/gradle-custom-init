@@ -1,3 +1,6 @@
+*v1.3.1*
+- fixing file path processing 
+
 *v1.3.0*
 - fixing a breaking change for local templates
 - fixed some templates extension
