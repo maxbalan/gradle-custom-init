@@ -117,7 +117,7 @@ if [ ! -f $GRADLE_PLUGIN/build.gradle ]; then
     echo `install -dv $GRADLE_PLUGIN`
 
     echo "plugins {
-            id 'com.github.maxbalan.gradle-custom-init' version '1.3.0'
+            id 'com.github.maxbalan.gradle-custom-init' version '1.3.1'
     }" >> "$GRADLE_PLUGIN/build.gradle"
 
     echo "" >> "$GRADLE_PLUGIN/settings.build"
