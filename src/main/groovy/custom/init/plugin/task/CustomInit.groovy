@@ -3,7 +3,6 @@ package custom.init.plugin.task
 import org.apache.commons.lang3.StringUtils
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.internal.tasks.options.Option
 import org.gradle.api.tasks.TaskAction
 
 import custom.init.plugin.core.SourceTemplateType
@@ -12,6 +11,9 @@ import custom.init.plugin.core.internal.FileResolver
 import custom.init.plugin.core.internal.LibraryVersionProperties
 import custom.init.plugin.core.internal.ProjectBuilderRegistry
 import custom.init.plugin.core.internal.Utils
+
+import org.gradle.api.tasks.options.Option
+
 /**
  * Created on 17/01/18.
  *
@@ -62,7 +64,7 @@ class CustomInit extends DefaultTask {
                 .execute()
     }
 
-    @Option(option = "project-type", description = "Set project type.", order = 0)
+    @Option(option = "project-type", description = "Set project type.")
     void setType(String type) {
         if (Utils.checkEmpty(type))
             throw new CustomInitException("Cannot resolve [ project-type ] parameter")
@@ -72,7 +74,7 @@ class CustomInit extends DefaultTask {
         logger.quiet("Setting project type: {}", this.projectType)
     }
 
-    @Option(option = "project-structure", description = "Set project type.", order = 0)
+    @Option(option = "project-structure", description = "Set project type.")
     void setProjectStructure(String structure) {
         if (Utils.checkEmpty(structure))
             throw new CustomInitException("Cannot resolve [ project-type ] parameter")
@@ -82,7 +84,7 @@ class CustomInit extends DefaultTask {
         logger.quiet("Setting project structure: {}", this.projectStructure)
     }
 
-    @Option(option = "group", description = "Set project group, default will result in project name", order = 0)
+    @Option(option = "group", description = "Set project group, default will result in project name")
     void setCustomProjectGroup(String group) {
         if (Utils.checkEmpty(group))
             throw new CustomInitException("Cannot resolve [ group ] parameter")
@@ -92,7 +94,7 @@ class CustomInit extends DefaultTask {
         logger.quiet("Setting project group: {}", this.projectGroup)
     }
 
-    @Option(option = "custom-template", description = "Set custom project template source", order = 0)
+    @Option(option = "custom-template", description = "Set custom project template source")
     void setCustomTemplate(String customTemplate) {
         if (StringUtils.isEmpty(customTemplate.trim()))
             throw new CustomInitException("Cannot resolve [ custom-template ] parameter")
@@ -102,7 +104,7 @@ class CustomInit extends DefaultTask {
         logger.quiet("Setting custom template source: {}", this.customTemplate)
     }
 
-    @Option(option = "custom-template-target", description = "Set custom project template location in the provided [ custom-template ]", order = 0)
+    @Option(option = "custom-template-target", description = "Set custom project template location in the provided [ custom-template ]")
     void setCustomTemplateLocation(String customTemplateTarget) {
         if (Utils.checkEmpty(customTemplateTarget))
             throw new CustomInitException("Cannot resolve [ custom-template ] parameter")
@@ -112,7 +114,7 @@ class CustomInit extends DefaultTask {
         logger.quiet("Setting custom template source target: {}", this.customTemplateTarget)
     }
 
-    @Option(option = "library-version-source", description = "Set an alternative source for library versions ", order = 0)
+    @Option(option = "library-version-source", description = "Set an alternative source for library versions ")
     void setLibraryVersionSource(String library) {
         if (Utils.checkEmpty(library))
             throw new CustomInitException("Provided file path cannot be Empty")
@@ -123,7 +125,7 @@ class CustomInit extends DefaultTask {
         logger.quiet("Setting new library source: {}", library)
     }
 
-    @Option(option = "project-target", description = "Set project location directory, if directory does not exists will try to create one", order = 0)
+    @Option(option = "project-target", description = "Set project location directory, if directory does not exists will try to create one")
     void setLocation(String projectTarget) {
         if (Utils.checkEmpty(projectTarget))
             throw new CustomInitException("Provided file path cannot be Empty")

@@ -5,7 +5,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.9.9"
+        classpath "com.gradle.publish:plugin-publish-plugin:0.10.1"
     }
 }
 
@@ -23,10 +23,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.7'
     //only required to read resources
     compile 'org.springframework:spring-core:5.0.4.RELEASE'
-
-
-    testCompile "org.codehaus.groovy:groovy-all:2.4.12"
-    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
 }
 
 //local publisher
@@ -40,8 +36,8 @@ uploadArchives {
 
 //gradle plugin publisher
 pluginBundle {
-    website = 'http://www.gradle.org/'
-    vcsUrl = 'https://github.com/gradle/gradle'
+    website = 'https://github.com/maxbalan/gradle-custom-init'
+    vcsUrl = 'https://github.com/maxbalan/gradle-custom-init'
     description = 'Gradle custom init plugin'
     tags = ['gradle-init', 'custom-init']
 
@@ -54,9 +50,8 @@ pluginBundle {
 }
 
 group 'com.github.maxbalan.gradle.plugin'
-version '1.4.3'
+version '1.4.4'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4.1'
+wrapper {
+    gradleVersion = '5.2.1'
 }
-
